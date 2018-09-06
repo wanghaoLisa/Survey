@@ -1,0 +1,244 @@
+﻿<!doctype html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>西安社区环境调查</title>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./page.js"></script>
+
+</head>
+
+<body>
+    <div id="status_text" style="font-family:verdana;">
+        <h3 style="font-family:verdana;">
+            您好，我们是长安大学城市规划系的师生，邀请您参加关于您所在社区居住环境方面的调研。请您对您所居住的社区及其周边的环境进行评价。任何问题请您联系叶如宁博士，29221697@qq.com
+            
+        </h3>
+        <p>RandomID: <span id="txtHint"></span></p>
+
+        <table border="1">
+            <tr>
+                <td>
+                    <form>
+                        性别:
+                        <select id="GENDER" class="easyui-combobox" style="width:200px;">
+                            <option value=""></option>
+                            <option value="Male">男</option>
+                            <option value="Female">女</option>
+                        </select>
+                    </form>
+                </td>
+                <td>
+
+                    <form>
+                        年龄:
+                        <select id="AGE" class="easyui-combobox" style="width:200px;">
+                            <option value=""></option>
+                            <option value="18under">18岁以下</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                            <option value="32">32</option>
+                            <option value="33">33</option>
+                            <option value="34">34</option>
+                            <option value="35">35</option>
+                            <option value="36">36</option>
+                            <option value="37">37</option>
+                            <option value="38">38</option>
+                            <option value="39">39</option>
+                            <option value="40">40</option>
+                            <option value="41">41</option>
+                            <option value="42">42</option>
+                            <option value="43">43</option>
+                            <option value="44">44</option>
+                            <option value="45">45</option>
+                            <option value="46">46</option>
+                            <option value="47">47</option>
+                            <option value="48">48</option>
+                            <option value="49">49</option>
+                            <option value="50">50</option>
+                            <option value="51">51</option>
+                            <option value="52">52</option>
+                            <option value="53">53</option>
+                            <option value="54">54</option>
+                            <option value="55">55</option>
+                            <option value="56">56</option>
+                            <option value="57">57</option>
+                            <option value="58">58</option>
+                            <option value="59">59</option>
+                            <option value="60">60</option>
+                            <option value="61">61</option>
+                            <option value="62">62</option>
+                            <option value="63">63</option>
+                            <option value="64">64</option>
+                            <option value="65">65</option>
+                            <option value="66">66</option>
+                            <option value="67">67</option>
+                            <option value="68">68</option>
+                            <option value="69">69</option>
+                            <option value="70">70</option>
+                            <option value="71">71</option>
+                            <option value="72">72</option>
+                            <option value="73">73</option>
+                            <option value="74">74</option>
+                            <option value="75 or above">75及以上</option>
+
+
+                        </select>
+                    </form>
+
+                </td>
+            </tr>
+            <br><br>
+
+            <tr>
+                <td>
+                    <form>
+                        居住在该社区的时间
+                        <select id="FAMILIARITY" class="easyui-combobox" style="width:200px;">
+                            <option value=""></option>
+                            <option value="0">1年以下</option>
+                            <option value="1">1-5年</option>
+                            <option value="5">5年以上</option>
+                        </select>
+                    </form>
+                </td>
+                <td>
+
+                    <form>
+                        教育水平:
+                        <select id="EDUCATION" class="easyui-combobox" style="width:200px;">
+                            <option value=""></option>
+                            <option value="小学">小学</option>
+                            <option value="初中">初中</option>
+                            <option value="高中">高中</option>
+                            <option value="中专/中技/职高">中专/中技/职高</option>
+                            <option value="大专">大专</option>
+                            <option value="大学本科">大学本科</option>
+                            <option value="研究生及以上">研究生及以上</option>
+                        </select>
+                    </form>
+
+
+                </td>
+            </tr>
+        </table>
+        <br>
+
+    </div>
+    <table border=1 BORDERCOLOR=yellow>
+        <tr>
+            <td>
+                <h4 style="font-family:verdana;">
+                    以下地图显示的是您居住的社区及其周边设施情况，请您根据右边社区环境相关提示主题，思考社区环境目前做的比较好的和需要改进的方面。请在地图上单击鼠标左键标识所反映问题的具体位置，并根据问题类型在右侧相对应的说明框内输入解释文字。地图可以根据您的需求放大或缩小。
+                   
+                </h4>
+                <div id="container"></div>
+
+                <script async defer src="https://webapi.amap.com/maps?v=1.4.5&key=d97cb8eca51e60c00e43a2aa6bc5c5b4&plugin=AMap.PlaceSearch,AMap.AdvancedInfoWindow,AMap.ToolBar&callback=initMap"
+                    type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js">
+                </script>
+
+
+
+                <div  id="capture"></div>
+
+
+
+
+
+
+
+                <form id='inputbox' accept-charset="utf-8">
+
+                    <input type="button" class="button" value="删除点标记" id="clearMarker" />
+
+                    <br><font size="3" >请您在以下选项中选择您想汇报的主题，并在左边的地图上点击相关位置以做标示：</font>
+                    <br>
+                    <select id="typeOfProblem" class="easyui-combobox" style="width:300px;">
+                        <option value=""></option>
+                        <option value="a">a.小区及周边环境绿化</option>
+                        <option value="b">b.小区及周边环境公共空间（广场、公园）</option>
+                        <option value="c">c.小区及周边环境商业设施</option>
+                        <option value="d">d.小区及周边环境自行车设施（自行车专用道、共享单车）</option>
+                        <option value="e">e.小区及周边环境步行设施（步行道、人行横道、交叉口步行信号灯）</option>
+                        <option value="f">f.小区及周边环境公共交通设施（公交、地铁）</option>
+                        <option value="g">g.小区及周边环境机动车道路环境（机动车道宽度、限速、噪音、安全等）</option>
+                        <option value="h">h.社区总体环境状况</option>
+                        <option value="i">i.其他</option>
+                    </select>
+
+
+
+
+
+                    <br><br>
+            
+
+                    <br><font size="3" >您认为目前社区及周边环境有哪些不错的地方？</font><br>
+                    <textarea style="overflow-y:scroll" name="cause" placeholder="请输入您选择的原因" cols="40"
+                        rows="3"></textarea>
+                    <br><br>
+
+
+
+                  
+
+                    <br><font size="3" >您认为目前社区及周边环境有哪些值得改进的地方？</font><br>
+                    <textarea style="overflow-y:scroll"  name="NegativeCause" placeholder="请输入您选择的原因" cols="40"
+                        rows="3"></textarea>
+                    
+
+
+
+                </form>
+                <form id='radiobox' accept-charset="utf-8">
+                    <font size="2" color="blue">
+                        如果您希望参加超市卡抽奖活动，请留下您的联系方式(电话或邮箱)，以便我们通知您中奖结果。</font>
+                    <textarea name="contact" placeholder="请输入您的电话或邮箱" cols="20" rows="2"></textarea><br>
+                
+                    <Button  onclick="javascript:return SaveResponseQs()" id="clearMarker1" style="font-size:160%;" HorizontalAlignment="Center"
+                    VerticalAlignment="Center" Margin="20" Width=20%>
+                    <font color="green and yellow">提交</font>
+                </Button>
+                </form>
+
+
+            </td>
+        </tr>
+
+
+
+    </table>
+
+
+    <br>
+
+
+
+
+
+</body>
+
+</html>

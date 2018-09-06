@@ -1,0 +1,50 @@
+html,
+body {
+    height: 370px;
+    padding: 0;
+    margin: 0;
+}
+
+#container {
+    height: 850px;
+    width: 70%;
+    overflow: hidden;
+    float: left;
+    border: thin solid #333;
+}
+
+#capture {
+    height: 270px;
+    width: 29%;
+    overflow: hidden;
+    float: left;
+    background-color: #ECECFB;
+    border: thin solid #333;
+    border-left: none;
+    word-wrap: break-word;
+    font-size: normal;
+}
+
+#radiobox {
+    height: 137px;
+    width: 29%;
+    overflow: hidden;
+    float: left;
+    background-color: #ECECFB;
+    border: thin solid #333;
+    border-left: none;
+    word-wrap: break-word;
+    font: 20px arial, sans-serif;
+}
+
+#inputbox {
+    height: 440px;
+    width: 29%; 
+    overflow: hidden;
+    float: left;
+    background-color: #ECECFB;
+    border: thin solid #333;
+    border-left: none;
+    word-wrap: break-word;
+    font: 5px arial, sans-serif;
+}
