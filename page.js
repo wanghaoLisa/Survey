@@ -88,14 +88,27 @@ function initMap() {
 
 
     function anyinformation(result) {
-        position = result.lnglat;
+/*         position = result.lnglat;
         Lng = result.lnglat.getLng();
         Lat = result.lnglat.getLat();
         address = regeocoder(position);
 
         var url = "?exeoption=2" + "&name=" + "" + "&type=" + "" + "&address=" + address + "&position=" +
-            position + "&Lng=" + Lng + "&Lat=" + Lat;
-        
+            position + "&Lng=" + Lng + "&Lat=" + Lat; */
+    
+            
+            const data = {};
+            data.position=result.lnglat;
+            data.Lng=result.lnglat.getLng();
+            data.Lat=result.lnglat.getLat();
+            data.address=regeocoder(position);
+
+            
+    
+            return data;
+
+
+
     }
 
     // map.plugin('AMap.Geolocation', function () {
@@ -212,6 +225,51 @@ $(document).ready(function () {
 
 function SaveResponseQs() {
     //get the form values
+    let code = document.getElementById("txtHint").innerHTML;
+    let cause = document.forms["inputbox"]["cause"].value;
+    let contact = document.forms["radiobox"]["contact"].value;
+    let GENDER = document.getElementById('GENDER').value;
+let AGE = document.getElementById('AGE').value;
+let FAMILIARITY = document.getElementById('FAMILIARITY').value;	
+let EDUCATION = document.getElementById('EDUCATION').value;
+let typeOfProblem=document.getElementById('typeOfProblem').value;
+let NegativeCause = document.forms["inputbox"]["NegativeCause"].value;
+    
+    $.ajax({
+        urL: '/database',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            exeoption:'2',
+            code,
+            name:"null",
+            type:"",
+            address:"",
+            position:data.position,
+            Lng:data.Lng,
+            Lat:data.Lat,
+            cause,
+            GENDER,
+            AGE,
+            FAMILIARITY,
+            EDUCATION,
+            typeOfProblem,
+            NegativeCause,
+            contact
+            
+        }
+    });
+/*     var url = "?exeoption=2" + "&code=" + code + "&name=" + name + "&type=" + type + "&address=" + address +
+    "&position=" + position + "&Lng=" + Lng + "&Lat=" + Lat + "&cause=" + cause +
+    "&GENDER="+ GENDER+"&AGE="+AGE+ "&FAMILIARITY=" +FAMILIARITY + "&EDUCATION="+EDUCATION
+    + "&typeOfProblem=" +typeOfProblem + "&NegativeCause="+NegativeCause
+    +"&contact="+contact;
+    
+
+
+
+
+
     var code = document.getElementById("txtHint").innerHTML;
 
     cause = document.forms["inputbox"]["cause"].value;
@@ -232,7 +290,7 @@ FAMILIARITY = document.getElementById('FAMILIARITY').value;
         "&position=" + position + "&Lng=" + Lng + "&Lat=" + Lat + "&cause=" + cause +
         "&GENDER="+ GENDER+"&AGE="+AGE+ "&FAMILIARITY=" +FAMILIARITY + "&EDUCATION="+EDUCATION
         + "&typeOfProblem=" +typeOfProblem + "&NegativeCause="+NegativeCause
-        +"&contact="+contact;
+        +"&contact="+contact; */
     
 
     if (GENDER==""||AGE==""||FAMILIARITY==""||EDUCATION==""||position == ''||typeOfProblem=="") {
@@ -282,7 +340,7 @@ function sendToDB(str) {
                 
             }
         };
-        xmlhttp.open("GET", "database.php" + str, true);
+        xmlhttp.open("POST", "database.php" + str, true);
         xmlhttp.send();
         
     }

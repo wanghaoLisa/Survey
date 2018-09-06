@@ -30,31 +30,32 @@ if ($result->num_rows > 0) {
 
 */
 
+$data = json_decode($_POST);
+$exeoption = $data['exeoption'];
+$random = $data["code"];
 
 
 
-$exeoption = $_REQUEST["exeoption"];
-$random = $_REQUEST["code"];
 
 //$exeoption = 2;
 
 if ($exeoption == 1) {
 
 	// get the q parameter from URL
-	$q = $_REQUEST["q"];
-	$pos = $_REQUEST["pos"];
-	$rating = $_REQUEST["rating"];
-	$price_level = $_REQUEST["price_level"];
-	$vicinity = $_REQUEST["vicinity"];
-	$types = $_REQUEST["types"];
-	$place_id = $_REQUEST["place_id"];
+	$q = $data["q"];
+	$pos = $data["pos"];
+	$rating = $data["rating"];
+	$price_level = $data["price_level"];
+	$vicinity = $data["vicinity"];
+	$types = $data["types"];
+	$place_id = $data["place_id"];
 	
-	$GENDER = $_REQUEST["GENDER"];
-	$AGE = $_REQUEST["AGE"];
-	$FAMILIARITY = $_REQUEST["FAMILIARITY"];
-	$EDUCATION = $_REQUEST["EDUCATION"];
-	$question = $_REQUEST["question"];
-	$zoomLevel = $_REQUEST["zoomLevel"];
+	$GENDER = $data["GENDER"];
+	$AGE = $data["AGE"];
+	$FAMILIARITY = $data["FAMILIARITY"];
+	$EDUCATION = $data["EDUCATION"];
+	$question = $data["question"];
+	$zoomLevel = $data["zoomLevel"];
 
 
 	$sql = "INSERT INTO Map (random,zoomLevel, GENDER, AGE, FAMILIARITY,EDUCATION,question, name, position, rating,price_level,vicinity,types, place_id) VALUES ('$random','$zoomLevel','$GENDER','$AGE', '$FAMILIARITY','$EDUCATION', '$question','$q', '$pos', '$rating', '$price_level', '$vicinity', '$types', '$place_id')";
@@ -68,22 +69,22 @@ if ($exeoption == 1) {
 
 	echo "exeoption == 2";
 
-	$name = $_REQUEST["name"];
-	$type = $_REQUEST["type"];
-	$address = $_REQUEST["address"];
-	$position = $_REQUEST["position"];
+	$name = $data["name"];
+	$type = $data["type"];
+	$address = $data["address"];
+	$position = $data["position"];
 	
-	$Lng = $_REQUEST["Lng"];
-	$Lat = $_REQUEST["Lat"];
-	$cause = $_REQUEST["cause"];
+	$Lng = $data["Lng"];
+	$Lat = $data["Lat"];
+	$cause = $data["cause"];
 
-	$GENDER = $_REQUEST["GENDER"];
-	$AGE = $_REQUEST["AGE"];
-	$FAMILIARITY = $_REQUEST["FAMILIARITY"];
-	$EDUCATION = $_REQUEST["EDUCATION"];
-	$typeOfProblem = $_REQUEST["typeOfProblem"];
-	$NegativeCause = $_REQUEST["NegativeCause"];
-	$contact = $_REQUEST["contact"];
+	$GENDER = $data["GENDER"];
+	$AGE = $data["AGE"];
+	$FAMILIARITY = $data["FAMILIARITY"];
+	$EDUCATION = $data["EDUCATION"];
+	$typeOfProblem = $data["typeOfProblem"];
+	$NegativeCause = $data["NegativeCause"];
+	$contact = $data["contact"];
 
 	
 	$sql2 = "INSERT INTO Reason (random, name,type,address,position,Lng,Lat,cause,GENDER,AGE,FAMILIARITY,EDUCATION,typeOfProblem,NegativeCause,contact) 
