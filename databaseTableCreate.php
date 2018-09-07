@@ -61,7 +61,8 @@ EDUCATION varchar(255),
 typeOfProblem varchar(255),
 NegativeCause varchar(5000),
        contact varchar(255),
-		reg_date TIMESTAMP
+		reg_date TIMESTAMP,
+		district varchar(255),
 ) DEFAULT CHARSET=utf8;";
 
 if ($conn->query($sql2) === TRUE) {

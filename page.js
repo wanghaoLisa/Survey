@@ -1,19 +1,3 @@
-// var name = 'null';
-
-// var address = '';
-// var type = '';
-// var position = '';
-// var cause = '';
-// var Lng = '';
-// var Lat = '';
-
-// var markers = [];
-// var GENDER ="" ;
-// var AGE = "";
-// var FAMILIARITY = "";	
-// var EDUCATION ="";
-// var typeOfProblem="";
-// var PositiveOrGenative="";
 const markers = [];
 const Data = {};
 /**
@@ -90,7 +74,7 @@ function initMap() {
 
     function anyinformation(result) {
 
-        
+
         Data.position = result.lnglat;
         Data.Lng = result.lnglat.getLng();
         Data.Lat = result.lnglat.getLat();
@@ -135,7 +119,7 @@ function initMap() {
     );
 
     var placeSearch = new AMap.PlaceSearch(); //???????
-    //var infoWindow=new AMap.AdvancedInfoWindow({});
+
     var infoWindow = new AMap.InfoWindow({
         autoMove: true,
         offset: {
@@ -186,11 +170,10 @@ function initMap() {
 
     function createContent(poi) { //??????
         var s = [];
-        //s.push('<div class="info-title">'+poi.name+'</div><div class="info-content">'+"地址：" + poi.address);
+
         s.push('<b>名称：' + poi.name + "</b>");
         s.push("地址：" + poi.address);
         s.push("类型：" + poi.type);
-        //s.push('<div>');
         return s.join("<br>");
     }
 
@@ -225,66 +208,29 @@ function SaveResponseQs() {
     let EDUCATION = document.getElementById('EDUCATION').value;
     let typeOfProblem = document.getElementById('typeOfProblem').value;
     let NegativeCause = document.forms["inputbox"]["NegativeCause"].value;
-let position="1";
-const dataVal={
-    exeoption: '2',
-    code,
-    name: "null",
-    type: "",
-    address: "",
-    position: "Wang",//Data.position,
-    Lng: "Wang",//Data.Lng,
-    Lat: "Wang",//Data.Lat,
-    cause,
-    GENDER,
-    AGE,
-    FAMILIARITY,
-    EDUCATION,
-    typeOfProblem,
-    NegativeCause,
-    contact
+    let position = Data.position.toString();
+    let district = geoplugin_city();
+  
+    const dataVal = {
+        exeoption: '2',
+        code,
+        name: "null",
+        type: "",
+        address: "",
+        position,//: Data.position.toString(),
+        Lng: Data.Lng,
+        Lat: Data.Lat,
+        cause,
+        GENDER,
+        AGE,
+        FAMILIARITY,
+        EDUCATION,
+        typeOfProblem,
+        NegativeCause,
+        contact,
+        district
 
-}
-
-
-    $.ajax({
-        urL: '/database',
-        method: 'POST',
-        dataType: 'json',
-        data: dataVal
-    });
-    /*     var url = "?exeoption=2" + "&code=" + code + "&name=" + name + "&type=" + type + "&address=" + address +
-        "&position=" + position + "&Lng=" + Lng + "&Lat=" + Lat + "&cause=" + cause +
-        "&GENDER="+ GENDER+"&AGE="+AGE+ "&FAMILIARITY=" +FAMILIARITY + "&EDUCATION="+EDUCATION
-        + "&typeOfProblem=" +typeOfProblem + "&NegativeCause="+NegativeCause
-        +"&contact="+contact;
-        
-
-
-
-
-
-        var code = document.getElementById("txtHint").innerHTML;
-
-        cause = document.forms["inputbox"]["cause"].value;
-
-        contact = document.forms["radiobox"]["contact"].value;
-
-        GENDER = document.getElementById('GENDER').value;
-    AGE = document.getElementById('AGE').value;
-    FAMILIARITY = document.getElementById('FAMILIARITY').value;	
-     EDUCATION = document.getElementById('EDUCATION').value;
-     typeOfProblem=document.getElementById('typeOfProblem').value;
-
-     NegativeCause = document.forms["inputbox"]["NegativeCause"].value;
-
-
-
-        var url = "?exeoption=2" + "&code=" + code + "&name=" + name + "&type=" + type + "&address=" + address +
-            "&position=" + position + "&Lng=" + Lng + "&Lat=" + Lat + "&cause=" + cause +
-            "&GENDER="+ GENDER+"&AGE="+AGE+ "&FAMILIARITY=" +FAMILIARITY + "&EDUCATION="+EDUCATION
-            + "&typeOfProblem=" +typeOfProblem + "&NegativeCause="+NegativeCause
-            +"&contact="+contact; */
+    }
 
 
     if (GENDER == "" || AGE == "" || FAMILIARITY == "" || EDUCATION == "" || position == '' || typeOfProblem == "") {
@@ -292,7 +238,16 @@ const dataVal={
         return false;
     } else {
 
-        sendToDB(dataVal);
+
+        // 
+        var dbParam = JSON.stringify(dataVal);
+        xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.open("POST", "database.php", true);
+        xmlhttp.setRequestHeader("Content-type", "application/json");
+        xmlhttp.send(dbParam);
+        //
+
         document.getElementById("inputbox").reset();
 
         alert("您已经成功反馈了问题，谢谢！");
@@ -300,46 +255,7 @@ const dataVal={
 
     }
 
-
-
-
-
-
-
 }
-
-
-/////////////////////
-/////////////////////////////////////////
-//write file
-
-
-function sendToDB(str) {
-    //alert('3');
-    if (str == "") {
-        alert('empty str');
-        return;
-    } else {
-        if (window.XMLHttpRequest) {
-            // code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            // code for IE6, IE5
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                var testimonial = document.getElementById('capture');
-                testimonial.innerHTML = xmlhttp.responseText;
-
-            }
-        };
-        xmlhttp.open("POST", "database.php" + str, true);
-        xmlhttp.send();
-
-    }
-}
-
 
 function makeid() {
     var text = "";

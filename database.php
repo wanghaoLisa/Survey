@@ -15,30 +15,14 @@ if ($conn->connect_error) {
 // Change character set to utf8
 mysqli_set_charset($conn,"utf8");
 
-/*
-$sql3 = "SELECT name, type, address, cause FROM Reason";
-$result = $conn->query($sql3);
 
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        echo "<br> name: ". $row["name"]. " - type: ". $row["type"]. "- address: " . $row["address"] . "- cause: " . $row["cause"]. "<br>";
-    }
-} else {
-    echo "0 results";
-}
-
-*/
-// print_r($_POST);
-$data = json_decode($_POST);
+$PHPdata = file_get_contents('php://input');
+$data = json_decode($PHPdata, true);
 echo $data;
 $exeoption = $data['exeoption'];
 $random = $data["code"];
 
 
-
-
-//$exeoption = 2;
 
 if ($exeoption == 1) {
 
@@ -86,10 +70,11 @@ if ($exeoption == 1) {
 	$typeOfProblem = $data["typeOfProblem"];
 	$NegativeCause = $data["NegativeCause"];
 	$contact = $data["contact"];
+	$district = $data["district"];
 
 	
-	$sql2 = "INSERT INTO Reason (random, name,type,address,position,Lng,Lat,cause,GENDER,AGE,FAMILIARITY,EDUCATION,typeOfProblem,NegativeCause,contact) 
-	VALUES ('$random','$name','$type','$address','$position','$Lng','$Lat','$cause','$GENDER','$AGE','$FAMILIARITY','$EDUCATION','$typeOfProblem','$NegativeCause','$contact')";
+	$sql2 = "INSERT INTO Reason (random, name,type,address,position,Lng,Lat,cause,GENDER,AGE,FAMILIARITY,EDUCATION,typeOfProblem,NegativeCause,contact,district) 
+	VALUES ('$random','$name','$type','$address','$position','$Lng','$Lat','$cause','$GENDER','$AGE','$FAMILIARITY','$EDUCATION','$typeOfProblem','$NegativeCause','$contact','$district')";
 	
 	if ($conn->query($sql2) === TRUE) {
 		echo "New record created successfully TO Reason";
@@ -98,7 +83,7 @@ if ($exeoption == 1) {
 	}
 	
 }else{
-	echo "Error: Parrameter error";
+	echo "Error: Parameter error";
 }
 
 $conn->close();
