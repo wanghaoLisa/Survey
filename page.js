@@ -1,31 +1,31 @@
+// var name = 'null';
 
-var name = 'null';
+// var address = '';
+// var type = '';
+// var position = '';
+// var cause = '';
+// var Lng = '';
+// var Lat = '';
 
-var address = '';
-var type = '';
-var position = '';
-var cause = '';
-var Lng = '';
-var Lat = '';
-
-var markers = [];
-var GENDER ="" ;
-var AGE = "";
-var FAMILIARITY = "";	
-var EDUCATION ="";
-var typeOfProblem="";
-var PositiveOrGenative="";
-
+// var markers = [];
+// var GENDER ="" ;
+// var AGE = "";
+// var FAMILIARITY = "";	
+// var EDUCATION ="";
+// var typeOfProblem="";
+// var PositiveOrGenative="";
+const markers = [];
+const Data = {};
 /**
  * Initializes the map and calls the function that creates polylines.
  */
 function initMap() {
 
-    var toolBar = new AMap.ToolBar({
+    let toolBar = new AMap.ToolBar({
         visible: true
     });
 
-    var marker, map = new AMap.Map('container', {
+    let marker, map = new AMap.Map('container', {
         resizeEnable: true,
         zoom: 17,
         center: [108.902102, 34.344153],
@@ -37,21 +37,21 @@ function initMap() {
     toolBar.showRuler();
 
     function addMarker(e) {
-        marker = new AMap.Marker({
+        let marker = new AMap.Marker({
             icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
             position: [e.lnglat.getLng(), e.lnglat.getLat()]
         });
         marker.setMap(map);
         markers.push(marker);
- 
+
     }
 
 
-    AMap.event.addDomListener(document.getElementById('clearMarker'), 'click', function() {
+    AMap.event.addDomListener(document.getElementById('clearMarker'), 'click', function () {
         map.remove(markers);
     }, false);
 
-    AMap.event.addDomListener(document.getElementById('clearMarker1'), 'click', function() {
+    AMap.event.addDomListener(document.getElementById('clearMarker1'), 'click', function () {
         map.remove(markers);
     }, false);
 
@@ -65,47 +65,38 @@ function initMap() {
         Lat = position.getLat();
         var url = "?exeoption=2" + "&name=" + name + "&type=" + type + "&address=" + address + "&position=" +
             position + "&Lng=" + Lng + "&Lat=" + Lat;
-        
-    }
-
-
-    function regeocoder(lnglatXY) { //逆地理编码
-        var geocoder = new AMap.Geocoder({
-            radius: 1000,
-            extensions: "all"
-        });
-        geocoder.getAddress(lnglatXY, function (status, result) {
-            if (status === 'complete' && result.info === 'OK') {
-                geocoder_CallBack(result);
-            }
-        });
 
     }
+
+
+    /*     function regeocoder(lnglatXY) { //逆地理编码
+            let geocoder = new AMap.Geocoder({
+                radius: 1000,
+                extensions: "all"
+            });
+            geocoder.getAddress(lnglatXY, function (status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    return geocoder_CallBack(result);
+                }
+            });
+
+        } */
 
     function geocoder_CallBack(data) {
-        var address = data.regeocode.formattedAddress; //返回地址描述
+        let address = data.regeocode.formattedAddress; //返回地址描述
+        return address;
     }
 
 
     function anyinformation(result) {
-/*         position = result.lnglat;
-        Lng = result.lnglat.getLng();
-        Lat = result.lnglat.getLat();
-        address = regeocoder(position);
 
-        var url = "?exeoption=2" + "&name=" + "" + "&type=" + "" + "&address=" + address + "&position=" +
-            position + "&Lng=" + Lng + "&Lat=" + Lat; */
-    
-            
-            const data = {};
-            data.position=result.lnglat;
-            data.Lng=result.lnglat.getLng();
-            data.Lat=result.lnglat.getLat();
-            data.address=regeocoder(position);
+        
+        Data.position = result.lnglat;
+        Data.Lng = result.lnglat.getLng();
+        Data.Lat = result.lnglat.getLat();
+        Data.address = ""; //regeocoder(position);
 
-            
-    
-            return data;
+        return Data;
 
 
 
@@ -155,9 +146,9 @@ function initMap() {
 
 
     map.on('click', function (result) {
-        
+
         addMarker(result);
-        
+
         anyinformation(result);
         var code = document.getElementById("txtHint").innerHTML;
 
@@ -229,80 +220,83 @@ function SaveResponseQs() {
     let cause = document.forms["inputbox"]["cause"].value;
     let contact = document.forms["radiobox"]["contact"].value;
     let GENDER = document.getElementById('GENDER').value;
-let AGE = document.getElementById('AGE').value;
-let FAMILIARITY = document.getElementById('FAMILIARITY').value;	
-let EDUCATION = document.getElementById('EDUCATION').value;
-let typeOfProblem=document.getElementById('typeOfProblem').value;
-let NegativeCause = document.forms["inputbox"]["NegativeCause"].value;
-    
+    let AGE = document.getElementById('AGE').value;
+    let FAMILIARITY = document.getElementById('FAMILIARITY').value;
+    let EDUCATION = document.getElementById('EDUCATION').value;
+    let typeOfProblem = document.getElementById('typeOfProblem').value;
+    let NegativeCause = document.forms["inputbox"]["NegativeCause"].value;
+let position="1";
+const dataVal={
+    exeoption: '2',
+    code,
+    name: "null",
+    type: "",
+    address: "",
+    position: "Wang",//Data.position,
+    Lng: "Wang",//Data.Lng,
+    Lat: "Wang",//Data.Lat,
+    cause,
+    GENDER,
+    AGE,
+    FAMILIARITY,
+    EDUCATION,
+    typeOfProblem,
+    NegativeCause,
+    contact
+
+}
+
+
     $.ajax({
         urL: '/database',
         method: 'POST',
         dataType: 'json',
-        data: {
-            exeoption:'2',
-            code,
-            name:"null",
-            type:"",
-            address:"",
-            position:data.position,
-            Lng:data.Lng,
-            Lat:data.Lat,
-            cause,
-            GENDER,
-            AGE,
-            FAMILIARITY,
-            EDUCATION,
-            typeOfProblem,
-            NegativeCause,
-            contact
-            
-        }
+        data: dataVal
     });
-/*     var url = "?exeoption=2" + "&code=" + code + "&name=" + name + "&type=" + type + "&address=" + address +
-    "&position=" + position + "&Lng=" + Lng + "&Lat=" + Lat + "&cause=" + cause +
-    "&GENDER="+ GENDER+"&AGE="+AGE+ "&FAMILIARITY=" +FAMILIARITY + "&EDUCATION="+EDUCATION
-    + "&typeOfProblem=" +typeOfProblem + "&NegativeCause="+NegativeCause
-    +"&contact="+contact;
-    
-
-
-
-
-
-    var code = document.getElementById("txtHint").innerHTML;
-
-    cause = document.forms["inputbox"]["cause"].value;
-
-    contact = document.forms["radiobox"]["contact"].value;
-
-    GENDER = document.getElementById('GENDER').value;
-AGE = document.getElementById('AGE').value;
-FAMILIARITY = document.getElementById('FAMILIARITY').value;	
- EDUCATION = document.getElementById('EDUCATION').value;
- typeOfProblem=document.getElementById('typeOfProblem').value;
-
- NegativeCause = document.forms["inputbox"]["NegativeCause"].value;
-
-
-
-    var url = "?exeoption=2" + "&code=" + code + "&name=" + name + "&type=" + type + "&address=" + address +
+    /*     var url = "?exeoption=2" + "&code=" + code + "&name=" + name + "&type=" + type + "&address=" + address +
         "&position=" + position + "&Lng=" + Lng + "&Lat=" + Lat + "&cause=" + cause +
         "&GENDER="+ GENDER+"&AGE="+AGE+ "&FAMILIARITY=" +FAMILIARITY + "&EDUCATION="+EDUCATION
         + "&typeOfProblem=" +typeOfProblem + "&NegativeCause="+NegativeCause
-        +"&contact="+contact; */
-    
+        +"&contact="+contact;
+        
 
-    if (GENDER==""||AGE==""||FAMILIARITY==""||EDUCATION==""||position == ''||typeOfProblem=="") {
-        alert("请先回答最上面的四个问题并选择一个地点再提交。");//在此处输入选择的原因
+
+
+
+
+        var code = document.getElementById("txtHint").innerHTML;
+
+        cause = document.forms["inputbox"]["cause"].value;
+
+        contact = document.forms["radiobox"]["contact"].value;
+
+        GENDER = document.getElementById('GENDER').value;
+    AGE = document.getElementById('AGE').value;
+    FAMILIARITY = document.getElementById('FAMILIARITY').value;	
+     EDUCATION = document.getElementById('EDUCATION').value;
+     typeOfProblem=document.getElementById('typeOfProblem').value;
+
+     NegativeCause = document.forms["inputbox"]["NegativeCause"].value;
+
+
+
+        var url = "?exeoption=2" + "&code=" + code + "&name=" + name + "&type=" + type + "&address=" + address +
+            "&position=" + position + "&Lng=" + Lng + "&Lat=" + Lat + "&cause=" + cause +
+            "&GENDER="+ GENDER+"&AGE="+AGE+ "&FAMILIARITY=" +FAMILIARITY + "&EDUCATION="+EDUCATION
+            + "&typeOfProblem=" +typeOfProblem + "&NegativeCause="+NegativeCause
+            +"&contact="+contact; */
+
+
+    if (GENDER == "" || AGE == "" || FAMILIARITY == "" || EDUCATION == "" || position == '' || typeOfProblem == "") {
+        alert("请先回答最上面的四个问题并选择一个地点再提交。"); //在此处输入选择的原因
         return false;
     } else {
 
-        sendToDB(url);
+        sendToDB(dataVal);
         document.getElementById("inputbox").reset();
-     
-         alert("您已经成功反馈了问题，谢谢！");        
-    return false;
+
+        alert("您已经成功反馈了问题，谢谢！");
+        return false;
 
     }
 
@@ -311,7 +305,7 @@ FAMILIARITY = document.getElementById('FAMILIARITY').value;
 
 
 
-    
+
 }
 
 
@@ -337,12 +331,12 @@ function sendToDB(str) {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var testimonial = document.getElementById('capture');
                 testimonial.innerHTML = xmlhttp.responseText;
-                
+
             }
         };
         xmlhttp.open("POST", "database.php" + str, true);
         xmlhttp.send();
-        
+
     }
 }
 

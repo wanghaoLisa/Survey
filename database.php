@@ -29,8 +29,9 @@ if ($result->num_rows > 0) {
 }
 
 */
-
+// print_r($_POST);
 $data = json_decode($_POST);
+echo $data;
 $exeoption = $data['exeoption'];
 $random = $data["code"];
 
