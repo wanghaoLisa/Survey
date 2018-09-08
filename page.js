@@ -1,31 +1,15 @@
-
-var name = 'null';
-
-var address = '';
-var type = '';
-var position = '';
-var cause = '';
-var Lng = '';
-var Lat = '';
-
-var markers = [];
-var GENDER ="" ;
-var AGE = "";
-var FAMILIARITY = "";	
-var EDUCATION ="";
-var typeOfProblem="";
-var PositiveOrGenative="";
-
+const markers = [];
+const Data = {};
 /**
  * Initializes the map and calls the function that creates polylines.
  */
 function initMap() {
 
-    var toolBar = new AMap.ToolBar({
+    let toolBar = new AMap.ToolBar({
         visible: true
     });
 
-    var marker, map = new AMap.Map('container', {
+    let marker, map = new AMap.Map('container', {
         resizeEnable: true,
         zoom: 17,
         center: [108.902102, 34.344153],
@@ -37,21 +21,21 @@ function initMap() {
     toolBar.showRuler();
 
     function addMarker(e) {
-        marker = new AMap.Marker({
+        let marker = new AMap.Marker({
             icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
             position: [e.lnglat.getLng(), e.lnglat.getLat()]
         });
         marker.setMap(map);
         markers.push(marker);
- 
+
     }
 
 
-    AMap.event.addDomListener(document.getElementById('clearMarker'), 'click', function() {
+    AMap.event.addDomListener(document.getElementById('clearMarker'), 'click', function () {
         map.remove(markers);
     }, false);
 
-    AMap.event.addDomListener(document.getElementById('clearMarker1'), 'click', function() {
+    AMap.event.addDomListener(document.getElementById('clearMarker1'), 'click', function () {
         map.remove(markers);
     }, false);
 
@@ -65,37 +49,41 @@ function initMap() {
         Lat = position.getLat();
         var url = "?exeoption=2" + "&name=" + name + "&type=" + type + "&address=" + address + "&position=" +
             position + "&Lng=" + Lng + "&Lat=" + Lat;
-        
-    }
-
-
-    function regeocoder(lnglatXY) { //逆地理编码
-        var geocoder = new AMap.Geocoder({
-            radius: 1000,
-            extensions: "all"
-        });
-        geocoder.getAddress(lnglatXY, function (status, result) {
-            if (status === 'complete' && result.info === 'OK') {
-                geocoder_CallBack(result);
-            }
-        });
 
     }
+
+
+    /*     function regeocoder(lnglatXY) { //逆地理编码
+            let geocoder = new AMap.Geocoder({
+                radius: 1000,
+                extensions: "all"
+            });
+            geocoder.getAddress(lnglatXY, function (status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    return geocoder_CallBack(result);
+                }
+            });
+
+        } */
 
     function geocoder_CallBack(data) {
-        var address = data.regeocode.formattedAddress; //返回地址描述
+        let address = data.regeocode.formattedAddress; //返回地址描述
+        return address;
     }
 
 
     function anyinformation(result) {
-        position = result.lnglat;
-        Lng = result.lnglat.getLng();
-        Lat = result.lnglat.getLat();
-        address = regeocoder(position);
 
-        var url = "?exeoption=2" + "&name=" + "" + "&type=" + "" + "&address=" + address + "&position=" +
-            position + "&Lng=" + Lng + "&Lat=" + Lat;
-        
+
+        Data.position = result.lnglat;
+        Data.Lng = result.lnglat.getLng();
+        Data.Lat = result.lnglat.getLat();
+        Data.address = ""; //regeocoder(position);
+
+        return Data;
+
+
+
     }
 
     // map.plugin('AMap.Geolocation', function () {
@@ -131,7 +119,7 @@ function initMap() {
     );
 
     var placeSearch = new AMap.PlaceSearch(); //???????
-    //var infoWindow=new AMap.AdvancedInfoWindow({});
+
     var infoWindow = new AMap.InfoWindow({
         autoMove: true,
         offset: {
@@ -142,9 +130,9 @@ function initMap() {
 
 
     map.on('click', function (result) {
-        
+
         addMarker(result);
-        
+
         anyinformation(result);
         var code = document.getElementById("txtHint").innerHTML;
 
@@ -182,11 +170,10 @@ function initMap() {
 
     function createContent(poi) { //??????
         var s = [];
-        //s.push('<div class="info-title">'+poi.name+'</div><div class="info-content">'+"地址：" + poi.address);
+
         s.push('<b>名称：' + poi.name + "</b>");
         s.push("地址：" + poi.address);
         s.push("类型：" + poi.type);
-        //s.push('<div>');
         return s.join("<br>");
     }
 
@@ -212,82 +199,63 @@ $(document).ready(function () {
 
 function SaveResponseQs() {
     //get the form values
-    var code = document.getElementById("txtHint").innerHTML;
+    let code = document.getElementById("txtHint").innerHTML;
+    let cause = document.forms["inputbox"]["cause"].value;
+    let contact = document.forms["radiobox"]["contact"].value;
+    let GENDER = document.getElementById('GENDER').value;
+    let AGE = document.getElementById('AGE').value;
+    let FAMILIARITY = document.getElementById('FAMILIARITY').value;
+    let EDUCATION = document.getElementById('EDUCATION').value;
+    let typeOfProblem = document.getElementById('typeOfProblem').value;
+    let NegativeCause = document.forms["inputbox"]["NegativeCause"].value;
+    let position = Data.position.toString();
+    let district = geoplugin_city();
+  
+    const dataVal = {
+        exeoption: '2',
+        code,
+        name: "null",
+        type: "",
+        address: "",
+        position,//: Data.position.toString(),
+        Lng: Data.Lng,
+        Lat: Data.Lat,
+        cause,
+        GENDER,
+        AGE,
+        FAMILIARITY,
+        EDUCATION,
+        typeOfProblem,
+        NegativeCause,
+        contact,
+        district
 
-    cause = document.forms["inputbox"]["cause"].value;
-
-    contact = document.forms["radiobox"]["contact"].value;
-
-    GENDER = document.getElementById('GENDER').value;
-AGE = document.getElementById('AGE').value;
-FAMILIARITY = document.getElementById('FAMILIARITY').value;	
- EDUCATION = document.getElementById('EDUCATION').value;
- typeOfProblem=document.getElementById('typeOfProblem').value;
-
- NegativeCause = document.forms["inputbox"]["NegativeCause"].value;
+    }
 
 
-
-    var url = "?exeoption=2" + "&code=" + code + "&name=" + name + "&type=" + type + "&address=" + address +
-        "&position=" + position + "&Lng=" + Lng + "&Lat=" + Lat + "&cause=" + cause +
-        "&GENDER="+ GENDER+"&AGE="+AGE+ "&FAMILIARITY=" +FAMILIARITY + "&EDUCATION="+EDUCATION
-        + "&typeOfProblem=" +typeOfProblem + "&NegativeCause="+NegativeCause
-        +"&contact="+contact;
-    
-
-    if (GENDER==""||AGE==""||FAMILIARITY==""||EDUCATION==""||position == ''||typeOfProblem=="") {
-        alert("请先回答最上面的四个问题并选择一个地点再提交。");//在此处输入选择的原因
+    if (GENDER == "" || AGE == "" || FAMILIARITY == "" || EDUCATION == "" || position == '' || typeOfProblem == "") {
+        alert("请先回答最上面的四个问题并选择一个地点再提交。"); //在此处输入选择的原因
         return false;
     } else {
 
-        sendToDB(url);
+
+        // 
+        var dbParam = JSON.stringify(dataVal);
+        xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.open("POST", "database.php", true);
+        xmlhttp.setRequestHeader("Content-type", "application/json");
+        xmlhttp.send(dbParam);
+        //
+
         document.getElementById("inputbox").reset();
-     
-         alert("您已经成功反馈了问题，谢谢！");        
-    return false;
+
+        alert("您已经成功反馈了问题，谢谢！");
+        return false;
 
     }
 
-
-
-
-
-
-    
 }
-
-
-/////////////////////
-/////////////////////////////////////////
-//write file
-
-
-function sendToDB(str) {
-    //alert('3');
-    if (str == "") {
-        alert('empty str');
-        return;
-    } else {
-        if (window.XMLHttpRequest) {
-            // code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            // code for IE6, IE5
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                var testimonial = document.getElementById('capture');
-                testimonial.innerHTML = xmlhttp.responseText;
-                
-            }
-        };
-        xmlhttp.open("GET", "database.php" + str, true);
-        xmlhttp.send();
-        
-    }
-}
-
 
 function makeid() {
     var text = "";

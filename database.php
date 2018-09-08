@@ -15,46 +15,32 @@ if ($conn->connect_error) {
 // Change character set to utf8
 mysqli_set_charset($conn,"utf8");
 
-/*
-$sql3 = "SELECT name, type, address, cause FROM Reason";
-$result = $conn->query($sql3);
 
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        echo "<br> name: ". $row["name"]. " - type: ". $row["type"]. "- address: " . $row["address"] . "- cause: " . $row["cause"]. "<br>";
-    }
-} else {
-    echo "0 results";
-}
-
-*/
+$PHPdata = file_get_contents('php://input');
+$data = json_decode($PHPdata, true);
+echo $data;
+$exeoption = $data['exeoption'];
+$random = $data["code"];
 
 
-
-
-$exeoption = $_REQUEST["exeoption"];
-$random = $_REQUEST["code"];
-
-//$exeoption = 2;
 
 if ($exeoption == 1) {
 
 	// get the q parameter from URL
-	$q = $_REQUEST["q"];
-	$pos = $_REQUEST["pos"];
-	$rating = $_REQUEST["rating"];
-	$price_level = $_REQUEST["price_level"];
-	$vicinity = $_REQUEST["vicinity"];
-	$types = $_REQUEST["types"];
-	$place_id = $_REQUEST["place_id"];
+	$q = $data["q"];
+	$pos = $data["pos"];
+	$rating = $data["rating"];
+	$price_level = $data["price_level"];
+	$vicinity = $data["vicinity"];
+	$types = $data["types"];
+	$place_id = $data["place_id"];
 	
-	$GENDER = $_REQUEST["GENDER"];
-	$AGE = $_REQUEST["AGE"];
-	$FAMILIARITY = $_REQUEST["FAMILIARITY"];
-	$EDUCATION = $_REQUEST["EDUCATION"];
-	$question = $_REQUEST["question"];
-	$zoomLevel = $_REQUEST["zoomLevel"];
+	$GENDER = $data["GENDER"];
+	$AGE = $data["AGE"];
+	$FAMILIARITY = $data["FAMILIARITY"];
+	$EDUCATION = $data["EDUCATION"];
+	$question = $data["question"];
+	$zoomLevel = $data["zoomLevel"];
 
 
 	$sql = "INSERT INTO Map (random,zoomLevel, GENDER, AGE, FAMILIARITY,EDUCATION,question, name, position, rating,price_level,vicinity,types, place_id) VALUES ('$random','$zoomLevel','$GENDER','$AGE', '$FAMILIARITY','$EDUCATION', '$question','$q', '$pos', '$rating', '$price_level', '$vicinity', '$types', '$place_id')";
@@ -68,26 +54,27 @@ if ($exeoption == 1) {
 
 	echo "exeoption == 2";
 
-	$name = $_REQUEST["name"];
-	$type = $_REQUEST["type"];
-	$address = $_REQUEST["address"];
-	$position = $_REQUEST["position"];
+	$name = $data["name"];
+	$type = $data["type"];
+	$address = $data["address"];
+	$position = $data["position"];
 	
-	$Lng = $_REQUEST["Lng"];
-	$Lat = $_REQUEST["Lat"];
-	$cause = $_REQUEST["cause"];
+	$Lng = $data["Lng"];
+	$Lat = $data["Lat"];
+	$cause = $data["cause"];
 
-	$GENDER = $_REQUEST["GENDER"];
-	$AGE = $_REQUEST["AGE"];
-	$FAMILIARITY = $_REQUEST["FAMILIARITY"];
-	$EDUCATION = $_REQUEST["EDUCATION"];
-	$typeOfProblem = $_REQUEST["typeOfProblem"];
-	$NegativeCause = $_REQUEST["NegativeCause"];
-	$contact = $_REQUEST["contact"];
+	$GENDER = $data["GENDER"];
+	$AGE = $data["AGE"];
+	$FAMILIARITY = $data["FAMILIARITY"];
+	$EDUCATION = $data["EDUCATION"];
+	$typeOfProblem = $data["typeOfProblem"];
+	$NegativeCause = $data["NegativeCause"];
+	$contact = $data["contact"];
+	$district = $data["district"];
 
 	
-	$sql2 = "INSERT INTO Reason (random, name,type,address,position,Lng,Lat,cause,GENDER,AGE,FAMILIARITY,EDUCATION,typeOfProblem,NegativeCause,contact) 
-	VALUES ('$random','$name','$type','$address','$position','$Lng','$Lat','$cause','$GENDER','$AGE','$FAMILIARITY','$EDUCATION','$typeOfProblem','$NegativeCause','$contact')";
+	$sql2 = "INSERT INTO Reason (random, name,type,address,position,Lng,Lat,cause,GENDER,AGE,FAMILIARITY,EDUCATION,typeOfProblem,NegativeCause,contact,district) 
+	VALUES ('$random','$name','$type','$address','$position','$Lng','$Lat','$cause','$GENDER','$AGE','$FAMILIARITY','$EDUCATION','$typeOfProblem','$NegativeCause','$contact','$district')";
 	
 	if ($conn->query($sql2) === TRUE) {
 		echo "New record created successfully TO Reason";
@@ -96,7 +83,7 @@ if ($exeoption == 1) {
 	}
 	
 }else{
-	echo "Error: Parrameter error";
+	echo "Error: Parameter error";
 }
 
 $conn->close();
